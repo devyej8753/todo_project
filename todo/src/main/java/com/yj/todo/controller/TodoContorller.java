@@ -61,11 +61,26 @@ public class TodoContorller {
 		Map<String,String> resultMap = new HashMap<String,String>();
 		resultMap.put("res_code", "500");
 		resultMap.put("res_msg", "할일 삭제중 문제가 발생했습니다.");
-		int result = service.deleteBoard(id);
+		int result = service.deleteTodo(id);
 		if(result > 0) {
 			resultMap.put("res_code", "200");
 			resultMap.put("res_msg", "정상적으로 할일을 삭제했습니다.");
 	}
 		return resultMap;
 	}
+	
+	@PostMapping("/todo/{id}")
+	@ResponseBody
+	public Map<String,String> updateTodoAPi(@PathVariable("id") Long id){
+		Map<String,String> resultMap = new HashMap<String,String>();
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "할일을 못했습니다.");
+		int result = service.updateTodo(id);
+		if(result > 0) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "정상적으로 할일을 마무리했습니다.");
+	}
+		return resultMap;
+	}
+
 }

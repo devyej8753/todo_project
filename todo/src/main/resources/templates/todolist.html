@@ -31,7 +31,11 @@
 			</tr>
 			<tr th:if="${!#lists.isEmpty(todoList)}"
 				th:each="todo, todoStatus : ${todoList}">
-				<td><input type="checkbox"></td>
+				<td>
+					<input type="checkbox" 
+					th:checked="${todo.todoFlag == 'Y'}"
+					th:onchange="|javascript:flagUpdate('${todo.todoNo}')|">
+				</td>
 				<td th:text="${(pageDto.numPerPage * (pageDto.nowPage-1)) + todoStatus.count}">번호</td>
 				<td th:text="${todo.todoContent}">내용</td>
 				<td>
@@ -59,6 +63,20 @@
 	</form>
 
 	<script>
+		const flagUpdate = function(todoNo){
+			fetch('/todo/'+todoNo,{method : 'post',})
+			.then(response => response.json())
+				.then(data => {
+					if(data.res_code == 200){
+						location.href="/";
+					}else{
+						alert(data.res_msg);
+					}
+						
+				})
+		}
+	
+	
 		const todoDelete = function(todoNo){
 			console.log(todoNo);
 			if(confirm("할일을 삭제하시겠습니까?")){
@@ -72,9 +90,6 @@
 				})
 			}
 		}	
-	
-	
-	
 		const form = document.create_todo_form;
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();
@@ -107,6 +122,7 @@
 				});
 			}
 		});
+		
 	</script>
 </body>
 </html>
