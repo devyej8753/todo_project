@@ -8,7 +8,7 @@
 <body>
 	
 	<h1>할 일 목록</h1>
-	<form action="/todo" name="search_todo_form" method="get">
+	<form action="/" name="search_todo_form" method="get">
 		<label for="search">내용 : </label>
 		<input type="text" id="search" name="search" th:value="${searchDto != null ? searchDto.search_text : ''}">
 		<input type="submit" value="검색">
@@ -33,19 +33,21 @@
 				<td><input type="checkbox"></td>
 				<td th:text="${(pageDto.numPerPage * (pageDto.nowPage-1)) + todoStatus.count}">번호</td>
 				<td th:text="${todo.todoContent}">내용</td>
-				<td><input type="button" value="삭제"></td>
+				<td>
+					<input type="button" value="삭제">
+				</td>
 			</tr>
 		</tbody>
 	</table>
 	<br>
 
-	<!-- <a th:if="${pageDto.prev}" th:href="@{/todoList(nowPage=${pageDto.pageBarStart-1})}">&laquo;</a>
+	<a th:if="${pageDto.prev}" th:href="@{/(nowPage=${pageDto.pageBarStart-1})}">&laquo;</a>
 	<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
 		th:text="${num}"
 		th:classappend="${pageDto.nowPage == num} ? 'active'"
-		th:href="@{/todoList(nowPage=${num})}">번호</a>
+		th:href="@{/(nowPage=${num})}">번호</a>
 	<a th:if="${pageDto.next}"
-		th:href="@{/todoList(nowPage=${pageDto.pageBarEnd+1})}">&raquo;</a>  -->
+		th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">&raquo;</a>
 
 	<h1>할 일 추가</h1>
 	<form name="create_todo_form" action="/todo">
@@ -55,6 +57,12 @@
 	</form>
 
 	<script>
+		const todoDelete = function(todoNo){
+			
+		}	
+	
+	
+	
 		const form = document.create_todo_form;
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();

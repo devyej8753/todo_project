@@ -24,13 +24,15 @@ public class TodoContorller {
 	
 	private final TodoService service;
 	
-	@GetMapping({"","/"})
-	public String todolist() {
-		return "todolist";
-	}
+//	@GetMapping({"","/"})
+//	public String todolist() {
+//		return "todolist";
+//	}
 	
-	@GetMapping("/todo")
+//	@GetMapping("/todo")
+	@GetMapping({"","/"})
 	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
+		
 		if(pageDto.getNowPage() == 0) pageDto.setNowPage(1);
 		
 		Page<Todo> resultList = service.selectTodoAll(searchDto,pageDto);
@@ -40,9 +42,9 @@ public class TodoContorller {
 		model.addAttribute("searchDto",searchDto);
 		model.addAttribute("todoList",resultList);
 		model.addAttribute("pageDto",pageDto);
-		System.out.println("todoList: " + resultList);
 		return "todolist";
  }
+	
 	@PostMapping("/todo")
 	@ResponseBody
 	public Map<String,String> createTodoApi(TodoDto dto){
