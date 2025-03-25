@@ -23,7 +23,6 @@ public class TodoService {
 			
 			dto.setTodo_no(todoNo);
 			
-			
 			result = 1;
 		}catch(Exception e) {
 			e.printStackTrace();
