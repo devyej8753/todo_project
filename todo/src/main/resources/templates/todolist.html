@@ -35,7 +35,8 @@
 				<td th:text="${(pageDto.numPerPage * (pageDto.nowPage-1)) + todoStatus.count}">번호</td>
 				<td th:text="${todo.todoContent}">내용</td>
 				<td>
-					<input type="button" value="삭제">
+					<input type="button" value="삭제" 
+					th:onclick="|javascript:todoDelete('${todo.todoNo}')|">
 				</td>
 			</tr>
 		</tbody>
@@ -59,7 +60,17 @@
 
 	<script>
 		const todoDelete = function(todoNo){
-			
+			console.log(todoNo);
+			if(confirm("할일을 삭제하시겠습니까?")){
+				fetch('/todo/'+todoNo,{method:'delete'})
+				.then(response => response.json())
+				.then(data => {
+					alert(data.res_msg);
+					if(data.res_code == 200){
+						location.href="/";
+					}
+				})
+			}
 		}	
 	
 	

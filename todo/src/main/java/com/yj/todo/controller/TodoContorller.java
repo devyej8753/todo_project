@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,17 +26,11 @@ public class TodoContorller {
 	
 	private final TodoService service;
 	
-//	@GetMapping({"","/"})
-//	public String todolist() {
-//		return "todolist";
-//	}
-	
-//	@GetMapping("/todo")
+
 	@GetMapping({"","/"})
 	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
 		
 		if(pageDto.getNowPage() == 0) pageDto.setNowPage(1);
-		System.out.println("검색어: " + searchDto.getSearch_text());
 		Page<Todo> resultList = service.selectTodoAll(searchDto,pageDto);
 		
 		pageDto.setTotalPage(resultList.getTotalPages());
@@ -59,5 +55,17 @@ public class TodoContorller {
 		}
 		return resultMap;
 	}
-	
+	@DeleteMapping("/todo/{id}")
+	@ResponseBody
+	public Map<String,String> deleteTodoApi(@PathVariable("id") Long id){
+		Map<String,String> resultMap = new HashMap<String,String>();
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "할일 삭제중 문제가 발생했습니다.");
+		int result = service.deleteBoard(id);
+		if(result > 0) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "정상적으로 할일을 삭제했습니다.");
+	}
+		return resultMap;
+	}
 }

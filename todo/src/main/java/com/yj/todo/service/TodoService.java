@@ -51,4 +51,18 @@ public class TodoService {
 		
 	}
 
+	public int deleteBoard(Long id) {
+		int result = 0;
+		try {
+			Todo target = repository.findById(id).orElse(null);
+			if(target != null) {
+				repository.deleteById(id);
+			}
+			result = 1;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }
