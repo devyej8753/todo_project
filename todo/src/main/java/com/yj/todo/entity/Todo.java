@@ -28,7 +28,7 @@ public class Todo {
 	@Column(name="todo_content")
 	private String todoContent;
 	
-	@Column(name="todo_flag")
+	@Column(nullable=false, name="todo_flag")
 	private String todoFlag;
 	
 }

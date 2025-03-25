@@ -3,12 +3,17 @@ package com.yj.todo.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yj.todo.dto.PageDto;
+import com.yj.todo.dto.SearchDto;
 import com.yj.todo.dto.TodoDto;
+import com.yj.todo.entity.Todo;
 import com.yj.todo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,16 +28,21 @@ public class TodoContorller {
 	public String todolist() {
 		return "todolist";
 	}
-//	@GetMapping("/Todolist")
-//	public String selectTodoAll(Model model) {
-//		
-//		
-//		model.addAttribute("todoList",)
-// }
+	
 	@GetMapping("/todo")
-	public String createTodoView() {
-		return "/todolist";
-	}
+	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
+		if(pageDto.getNowPage() == 0) pageDto.setNowPage(1);
+		
+		Page<Todo> resultList = service.selectTodoAll(searchDto,pageDto);
+		
+		pageDto.setTotalPage(resultList.getTotalPages());
+		
+		model.addAttribute("searchDto",searchDto);
+		model.addAttribute("todoList",resultList);
+		model.addAttribute("pageDto",pageDto);
+		System.out.println("todoList: " + resultList);
+		return "todolist";
+ }
 	@PostMapping("/todo")
 	@ResponseBody
 	public Map<String,String> createTodoApi(TodoDto dto){

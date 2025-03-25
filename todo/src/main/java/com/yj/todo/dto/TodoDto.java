@@ -21,7 +21,7 @@ public class TodoDto {
 	
 	private Long todo_no;
 	private String todo_content;
-	private String todo_flag = "N";
+	private String todo_flag;
 	
 	public Todo toEntity() {
 		return Todo.builder()
@@ -34,7 +34,6 @@ public class TodoDto {
 		return TodoDto.builder()
 						.todo_no(Todo.getTodoNo())
 						.todo_content(Todo.getTodoContent())
-						.todo_flag(Todo.getTodoFlag())
 						.build();
 	}
 	
