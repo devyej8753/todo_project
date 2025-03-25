@@ -34,7 +34,7 @@ public class TodoContorller {
 	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
 		
 		if(pageDto.getNowPage() == 0) pageDto.setNowPage(1);
-		
+		System.out.println("검색어: " + searchDto.getSearch_text());
 		Page<Todo> resultList = service.selectTodoAll(searchDto,pageDto);
 		
 		pageDto.setTotalPage(resultList.getTotalPages());
