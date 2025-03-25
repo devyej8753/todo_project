@@ -10,7 +10,8 @@
 	<h1>할 일 목록</h1>
 	<form action="/" name="search_todo_form" method="get">
 		<label for="search">내용 : </label>
-		<input type="text" id="search" name="search_text" th:value="${searchDto != null ? searchDto.search_text : ''}">
+		<input type="text" id="search" name="search_text" th:value="${searchDto != null ? searchDto.search_text : ''}"
+				th:selected="${searchDto.search_text}">
 		<input type="submit" value="검색">
 	</form>
 	<br>
@@ -45,7 +46,7 @@
 	<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
 		th:text="${num}"
 		th:classappend="${pageDto.nowPage == num} ? 'active'"
-		th:href="@{/(nowPage=${num})}">번호</a>
+		th:href="@{/(nowPage=${num},search_text=${searchDto.search_text})}">번호</a>
 	<a th:if="${pageDto.next}"
 		th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">&raquo;</a>
 
