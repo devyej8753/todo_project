@@ -1,43 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>ToDoList</title>
 </head>
 <body>
-	<h1>할 일 목록</h1>
+	<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	
+		<h1>할 일 목록</h1>
 
-	<label for="seach">내용 : </label>	
-	<input type="text" id="seach" name="seach">
-	<input type="button" value="검색"><br>
-	<br>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>완료</th>
-				<th>번호</th>
-				<th>내용</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>
-					<input type="checkbox">
-				</td>
-				<td>번호</td>
-				<td>내용</td>
-				<td>
-					<input type="button" value="삭제">
-				</td>
-			</tr>
-		</tbody>
-	</table><br>
-	
-	<a>페이징 추가할거임</a>
-	
-	<h1>할 일 추가</h1>
-	<input type="text">
-	<input type="button" value="추가하기">
+		<label for="seach">내용 : </label>
+		<input type="text" id="seach" name="seach">
+		<input type="button" value="검색">
+		<br>
+		<br>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>완료</th>
+					<th>번호</th>
+					<th>내용</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <tr th:if="${#lists.isEmpty(TodoList)}">
+					
+				</tr> -->
+				<tr>
+					<td><input type="checkbox"></td>
+					<td>번호</td>
+					<td>내용</td>
+					<td><input type="button" value="삭제"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+
+		<a>페이징 추가할거임</a>
+
+		<h1>할 일 추가</h1>
+		<form name="create_todo_form">
+			<input type="text" name="todo_content" placeholder="할일을 입력하세요.">
+			<input type="submit" value="추가하기">
+		</form>
+	<script>
+		const form = document.create_todo_form;
+		form.addEventListener('submit',(e)=>{
+			e.preventDefault();
+			
+			let vali_check = false;
+			let vali_text = "";
+			
+			if(!form.todo_content.value){
+				vali_text ="할일을 입력하세요";
+			}else{
+				vali_check = true;
+			}
+			
+			if(vali_check == false){
+				alert(vali_text);
+			}else{
+				const payload = new FormData(form);
+				fetch("/todo",{
+					method:"post",
+					body:payload
+				})
+				.then(response => response.json())
+				.then(data => {
+					alert(data.res_msg);
+				})
+				.catch(error =>{
+						alert(error); 
+				})
+			}
+		})
+	</script>
 </body>
 </html>
