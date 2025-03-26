@@ -26,35 +26,42 @@ public class TodoContorller {
 	
 	private final TodoService service;
 	
-
+	
 	@GetMapping({"","/"})
 	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
 		
 		if(pageDto.getNowPage() == 0) pageDto.setNowPage(1);
+		
 		Page<Todo> resultList = service.selectTodoAll(searchDto,pageDto);
+		
+//		if(resultList.isEmpty()) {
+//			resultList = null;
+//		}
 		
 		pageDto.setTotalPage(resultList.getTotalPages());
 		
+		
+		model.addAttribute("todoList",resultList.getContent());
 		model.addAttribute("searchDto",searchDto);
-		model.addAttribute("todoList",resultList);
 		model.addAttribute("pageDto",pageDto);
 		return "todolist";
- }
+	}
 	
-	@PostMapping("/todo")
+	@PostMapping("/todo/create")
 	@ResponseBody
 	public Map<String,String> createTodoApi(TodoDto dto){
 		Map<String,String> resultMap = new HashMap<String,String>();
 		resultMap.put("res_code", "500");
 		resultMap.put("res_msg", "할일 등록중 오류가 발생했습니다");
 		
-		int result = service.createTodo(dto);
-		if(result > 0) {
+		Todo result = service.createTodo(dto);
+		if(result != null) {
 			resultMap.put("res_code", "200");
 			resultMap.put("res_msg", "정상적으로 할일이 등록되었습니다.");
 		}
 		return resultMap;
 	}
+	
 	@DeleteMapping("/todo/{id}")
 	@ResponseBody
 	public Map<String,String> deleteTodoApi(@PathVariable("id") Long id){
@@ -74,7 +81,7 @@ public class TodoContorller {
 	public Map<String,String> updateTodoAPi(@PathVariable("id") Long id){
 		Map<String,String> resultMap = new HashMap<String,String>();
 		resultMap.put("res_code", "500");
-		resultMap.put("res_msg", "할일을 못했습니다.");
+		resultMap.put("res_msg", "할일 완료 여부 수정실패");
 		int result = service.updateTodo(id);
 		if(result > 0) {
 			resultMap.put("res_code", "200");

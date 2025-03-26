@@ -3,14 +3,135 @@
 <script th:src="@{/js/jquery-3.7.1.js}"></script>
 <head>
 <meta charset="UTF-8">
-<title>ToDoList</title>
+<title>홈화면</title>
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #d4a5ff, #e6cfff);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 12px;
+    width: 320px;
+    border: 2px solid #b084f7;
+    border-radius: 30px;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 개별 적용 */
+input[type="submit"], input[type="button"] {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+input[type="submit"] {
+    background: linear-gradient(135deg, #b084f7, #9571f7);
+    color: white;
+    border-color: #9571f7;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #8a5ff4, #7a4de3);
+    border-color: #7a4de3;
+}
+
+input[type="button"] {
+    background: linear-gradient(135deg, #e6a6ff, #c084f7);
+    color: white;
+    border-color: #c084f7;
+}
+
+input[type="button"]:hover {
+    background: linear-gradient(135deg, #c084f7, #a56ff7);
+    border-color: #a56ff7;
+}
+
+/* 체크박스 스타일 */
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #b084f7;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #d5b3ff;
+    text-align: center;
+}
+
+th {
+    background: linear-gradient(135deg, #c7a2ff, #e0c3ff);
+    color: white;
+    font-size: 18px;
+}
+
+tr:nth-child(even) {
+    background-color: #f4e8ff;
+}
+
+tr:hover {
+    background-color: #e3d1ff;
+}
+
+.active {
+    font-weight: bold;
+    color: #8a5ff4;
+}
+
+a {
+    text-decoration: none;
+    color: #b084f7;
+    font-weight: bold;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #7a4de3;
+}
+
+</style>
 </head>
 <body>
-	
 	<h1>할 일 목록</h1>
 	<form action="/" name="search_todo_form" method="get">
 		<label for="search">내용 : </label>
-		<input type="text" id="search" name="search_text" th:value="${searchDto != null ? searchDto.search_text : ''}"
+		<input type="text" id="search" name="search_text" th:value="${searchDto.search_text}"
 				th:selected="${searchDto.search_text}">
 		<input type="submit" value="검색">
 	</form>
@@ -27,44 +148,52 @@
 		</thead>
 		<tbody>
 			<tr th:if="${#lists.isEmpty(todoList)}">
-				<td colspan="4">게시글이 없습니다.</td>
+				<td colspan="4">조회된 데이터가 없습니다.</td>
 			</tr>
 			<tr th:if="${!#lists.isEmpty(todoList)}"
 				th:each="todo, todoStatus : ${todoList}">
 				<td>
 					<input type="checkbox" 
-					th:checked="${todo.todoFlag == 'Y'}"
-					th:onchange="|javascript:flagUpdate('${todo.todoNo}')|">
+					th:checked="${todo.flag == 'Y'}"
+					th:value="${todo.flag}"
+					th:onchange="|javascript:flagUpdate('${todo.no}')|">
 				</td>
 				<td th:text="${(pageDto.numPerPage * (pageDto.nowPage-1)) + todoStatus.count}">번호</td>
-				<td th:text="${todo.todoContent}">내용</td>
+				<td th:text="${todo.content}">내용</td>
 				<td>
 					<input type="button" value="삭제" 
-					th:onclick="|javascript:todoDelete('${todo.todoNo}')|">
+					th:onclick="|javascript:todoDelete('${todo.no}')|">
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	<br>
-
-	<a th:if="${pageDto.prev}" th:href="@{/(nowPage=${pageDto.pageBarStart-1})}">&laquo;</a>
+	<div th:if="${!#lists.isEmpty(todoList)}">
+	<a th:if="${pageDto.prev}" 
+		th:href="@{/(nowPage=${pageDto.pageBarStart-1})}">
+		&laquo;
+	</a>
 	<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
 		th:text="${num}"
 		th:classappend="${pageDto.nowPage == num} ? 'active'"
-		th:href="@{/(nowPage=${num},search_text=${searchDto.search_text})}">번호</a>
+		th:href="@{/(nowPage=${num},search_text=${searchDto.search_text})}">
+		번호
+	</a>
 	<a th:if="${pageDto.next}"
-		th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">&raquo;</a>
-
+		th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">
+		&raquo;
+	</a>
+	</div>
 	<h1>할 일 추가</h1>
 	<form name="create_todo_form" action="/todo">
-		<input type="text" name="todo_content" placeholder="할일을 입력하세요.">
-		<input type="hidden" name="todo_flag" value="N">
+		<input type="text" name="content" placeholder="할일을 입력하세요.">
+		<input type="hidden" name="flag" value="N">
 		<input type="submit" value="추가하기">
 	</form>
 
 	<script>
-		const flagUpdate = function(todoNo){
-			fetch('/todo/'+todoNo,{method : 'post',})
+		const flagUpdate = function(no){
+			fetch('/todo/'+no,{method : 'post',})
 			.then(response => response.json())
 				.then(data => {
 					if(data.res_code == 200){
@@ -75,10 +204,10 @@
 						
 				})
 		}
-		const todoDelete = function(todoNo){
-			console.log(todoNo);
+		const todoDelete = function(no){
+			console.log(no);
 			if(confirm("할일을 삭제하시겠습니까?")){
-				fetch('/todo/'+todoNo,{method:'delete'})
+				fetch('/todo/'+no,{method:'delete'})
 				.then(response => response.json())
 				.then(data => {
 					alert(data.res_msg);
@@ -95,7 +224,7 @@
 			let vali_check = false;
 			let vali_text = "";
 			
-			if (!form.todo_content.value) {
+			if (!form.content.value) {
 				vali_text = "할일을 입력하세요";
 			} else {
 				vali_check = true;
@@ -105,7 +234,7 @@
 				alert(vali_text);
 			} else {
 				const payload = new FormData(form);
-				fetch("/todo", {
+				fetch("/todo/create", {
 					method: "post",
 					body: payload
 				})

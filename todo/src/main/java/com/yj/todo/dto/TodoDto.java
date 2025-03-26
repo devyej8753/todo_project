@@ -19,21 +19,20 @@ import lombok.ToString;
 @Table(name="todo")
 public class TodoDto {
 	
-	private Long todo_no;
-	private String todo_content;
-	private String todo_flag;
+	private Long no;
+	private String content;
+	private String flag;
 	
 	public Todo toEntity() {
 		return Todo.builder()
-					.todoNo(todo_no)
-					.todoContent(todo_content)
-					.todoFlag(todo_flag)
+					.content(content)
+					.flag(flag)
 					.build();
 	}
 	public TodoDto toDto(Todo Todo) {
 		return TodoDto.builder()
-						.todo_no(Todo.getTodoNo())
-						.todo_content(Todo.getTodoContent())
+						.no(Todo.getNo())
+						.content(Todo.getContent())
 						.build();
 	}
 	

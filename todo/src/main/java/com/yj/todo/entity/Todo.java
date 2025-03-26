@@ -22,13 +22,13 @@ import lombok.Setter;
 public class Todo {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="todo_no")
-	private Long todoNo;
+	@Column(name="no")
+	private Long no;
 	
-	@Column(name="todo_content")
-	private String todoContent;
+	@Column(name="content")
+	private String content;
 	
-	@Column(nullable=false, name="todo_flag")
-	private String todoFlag;
+	@Column(nullable=false, name="flag")
+	private String flag;
 	
 }

@@ -11,7 +11,7 @@ public class TodoSpecification {
 	        if (keyword == null || keyword.isEmpty()) {
 	            return criteriaBuilder.conjunction();
 	        }
-	        return criteriaBuilder.like(root.get("todoContent"), "%" + keyword + "%");
+	        return criteriaBuilder.like(root.get("content"), "%" + keyword + "%");
 	    };
 	}
 

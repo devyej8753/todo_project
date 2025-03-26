@@ -20,31 +20,36 @@ public class TodoService {
 	
 	private final TodoRepository repository;
 	
-	public int createTodo(TodoDto dto) {
-		int result = 0;
-		try {
-			Todo entity = dto.toEntity();
-			Todo saved = repository.save(entity);
-			
-			Long todoNo = saved.getTodoNo();
-			
-			dto.setTodo_no(todoNo);
-			
-			result = 1;
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+	public Todo createTodo(TodoDto dto) {
+		// 강사님 풀이
+		Todo entity = dto.toEntity();
+		Todo result = repository.save(entity);
 		return result;
+		// 내 풀이
+//		int result = 0;
+//		try {
+//			Todo entity = dto.toEntity();
+//			Todo saved = repository.save(entity);
+//			
+//			Long todoNo = saved.getTodoNo();
+//			
+//			dto.setTodo_no(todoNo);
+//			
+//			result = 1;
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		return result;
 	}
 
 	public Page<Todo> selectTodoAll(SearchDto searchDto, PageDto pageDto) {
 		Pageable pageable = PageRequest.of(pageDto.getNowPage() -1, pageDto.getNumPerPage());
+		
 		Specification<Todo> spec = (root,query,criteriaBuilder)->null;
 		
-		if(searchDto.getSearch_text() == null) {
-			searchDto.setSearch_text(null);
+		if(searchDto.getSearch_text() != null) {
+			spec = spec.and(TodoSpecification.todoContentContains(searchDto.getSearch_text()));
 		}
-		spec = spec.and(TodoSpecification.todoContentContains(searchDto.getSearch_text()));
 		
 		Page<Todo> list = repository.findAll(spec, pageable);
 		return list;
@@ -69,10 +74,10 @@ public class TodoService {
 		int result = 0;
 		try {
 			Todo target = repository.findById(id).orElse(null);
-			if(target.getTodoFlag().equals("Y")) {
-				target.setTodoFlag("N");
+			if(target.getFlag().equals("Y")) {
+				target.setFlag("N");
 			}else {
-				target.setTodoFlag("Y");
+				target.setFlag("Y");
 			}
 			if(target != null) {
 				repository.save(target);
