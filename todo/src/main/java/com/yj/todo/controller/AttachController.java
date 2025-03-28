@@ -39,6 +39,7 @@ public class AttachController {
 				AttachDto dto = attachService.uploadFile(mf);
 				// 2. 파일 데이터베이스 저장
 				if(dto != null) attachService.createAttach(dto);
+				
 			}
 			
 			resultMap.put("res_code", "200");

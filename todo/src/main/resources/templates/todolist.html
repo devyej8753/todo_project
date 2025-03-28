@@ -232,8 +232,10 @@ label:hover {
 			})
 			.then(response => response.json())
 			.then(data => {
+				alert(data.res_msg);
 			})
 			.catch(error =>{
+				alert(data.res_msg);
 		})
 	})
 	// css추가하려고 넣은거임
@@ -251,7 +253,7 @@ label:hover {
 	    }
 	}	
 	</script>
-	<h1>할 일 목록</h1>
+	<h1>✨To Do List✨</h1>
 	<form action="/" name="search_todo_form" method="get">
 		<label for="search">내용 : </label>
 		<input type="text" id="search" name="search_text" th:value="${searchDto.search_text}"
