@@ -5,129 +5,252 @@
 <meta charset="UTF-8">
 <title>홈화면</title>
 <style>
+/* 파일 선택 스타일 */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    display: none; /* 파일 입력 필드는 숨김 */
+}
+
+label.custom-file-label {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #5e72e4;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+label.custom-file-label:hover {
+    background-color: #4e61d1;
+    transform: scale(1.05);
+}
+
+#file-name {
+    font-size: 14px;
+    color: #555;
+    margin-left: 10px;
+    font-weight: 500;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #f1f3f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 선택된 파일이 있을 때 스타일 변경 */
+#file-name.selected {
+    color: #4e61d1;
+    background-color: #e7f0fd;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* 전체 스타일 */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #d4a5ff, #e6cfff);
+    background: #f4f7fb;
     margin: 0;
     padding: 20px;
     color: #333;
 }
 
+/* 제목 스타일 */
 h1 {
-    color: #fff;
+    color: #4c4c4c;
     text-align: center;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: 28px;
 }
 
+/* 입력 폼 스타일 */
 form {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
 }
 
 input[type="text"] {
     padding: 12px;
     width: 320px;
-    border: 2px solid #b084f7;
-    border-radius: 30px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
     font-size: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
 
-/* 버튼 스타일 개별 적용 */
+input[type="text"]:focus {
+    border-color: #5e72e4;
+    outline: none;
+    box-shadow: 0 0 10px rgba(94, 114, 228, 0.5);
+}
+
+/* 버튼 스타일 */
 input[type="submit"], input[type="button"] {
     padding: 12px 20px;
     font-size: 16px;
     border: none;
     cursor: pointer;
-    border-radius: 30px;
-    transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border: 2px solid transparent;
-}
-
-input[type="submit"] {
-    background: linear-gradient(135deg, #b084f7, #9571f7);
+    border-radius: 25px;
+    transition: all 0.3s ease-in-out;
+    background-color: #5e72e4;
     color: white;
-    border-color: #9571f7;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
-input[type="submit"]:hover {
-    background: linear-gradient(135deg, #8a5ff4, #7a4de3);
-    border-color: #7a4de3;
-}
-
-input[type="button"] {
-    background: linear-gradient(135deg, #e6a6ff, #c084f7);
-    color: white;
-    border-color: #c084f7;
-}
-
-input[type="button"]:hover {
-    background: linear-gradient(135deg, #c084f7, #a56ff7);
-    border-color: #a56ff7;
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #4e61d1;
+    transform: scale(1.05);
 }
 
 /* 체크박스 스타일 */
 input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
-    accent-color: #b084f7;
 }
 
+/* 테이블 스타일 */
 table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
+    background: #fff;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-th, td {
-    padding: 15px;
-    border: 1px solid #d5b3ff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
 th {
-    background: linear-gradient(135deg, #c7a2ff, #e0c3ff);
-    color: white;
+    background-color: #f1f3f9;
+    color: #333;
     font-size: 18px;
 }
 
 tr:nth-child(even) {
-    background-color: #f4e8ff;
+    background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #e3d1ff;
+    background-color: #f1f1f1;
+    transition: background 0.3s ease-in-out;
 }
 
+/* 현재 페이지 강조 */
 .active {
     font-weight: bold;
-    color: #8a5ff4;
+    color: #5e72e4;
+    text-decoration: underline;
 }
 
+/* 링크 스타일 */
 a {
     text-decoration: none;
-    color: #b084f7;
+    color: #5e72e4;
     font-weight: bold;
     padding: 5px;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
 a:hover {
     text-decoration: underline;
-    color: #7a4de3;
+    color: #4e61d1;
+    transform: scale(1.1);
 }
 
+/* 라벨 스타일 */
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #5e72e4;
+    background: #e7f0fd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 라벨과 입력 필드 간 간격 */
+label + input {
+    margin-left: 10px;
+}
+
+/* 마우스 오버 효과 */
+label:hover {
+    background: #d6e3fb;
+    transform: scale(1.05);
+    color: white;
+    cursor: pointer;
+}
+
+/* 반응형 (모바일 최적화) */
+@media (max-width: 768px) {
+    label {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    input[type="text"] {
+        width: 260px;
+    }
+}
 </style>
 </head>
 <body>
+	<h1>파일 목록</h1>
+	<form name="create_file_form">
+		<label for="file-upload" class="custom-file-label">파일 선택</label>
+    	<input type="file" id="file-upload" name="files" multiple onchange="updateFileName()">
+    	<span id="file-name">선택된 파일 없음</span>
+    	<input type="submit" value="업로드">
+	</form>
+	<script>
+		const form1 = document.create_file_form
+		form1.addEventListener('submit',(e)=>{
+			e.preventDefault();
+		const payload1 = new FormData(form1);
+			fetch("/attach/create",{
+				method:"post",
+				body:payload1
+			})
+			.then(response => response.json())
+			.then(data => {
+			})
+			.catch(error =>{
+		})
+	})
+	// css추가하려고 넣은거임
+	function updateFileName() {
+	    var input = document.getElementById('file-upload');
+	    var fileNameDisplay = document.getElementById('file-name');
+	    
+	    // 선택된 파일이 있으면 파일 이름을 표시하고 스타일 변경
+	    if (input.files.length > 0) {
+	        fileNameDisplay.textContent = input.files[0].name;
+	        fileNameDisplay.classList.add('selected'); // 선택된 파일 스타일 추가
+	    } else {
+	        fileNameDisplay.textContent = "선택된 파일 없음";
+	        fileNameDisplay.classList.remove('selected'); // 선택된 파일이 없으면 스타일 제거
+	    }
+	}	
+	</script>
 	<h1>할 일 목록</h1>
 	<form action="/" name="search_todo_form" method="get">
 		<label for="search">내용 : </label>
@@ -170,19 +293,12 @@ a:hover {
 	<br>
 	<div th:if="${!#lists.isEmpty(todoList)}">
 	<a th:if="${pageDto.prev}" 
-		th:href="@{/(nowPage=${pageDto.pageBarStart-1})}">
-		&laquo;
-	</a>
+		th:href="@{/(nowPage=${pageDto.pageBarStart-1})}">&laquo;</a>
 	<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
 		th:text="${num}"
 		th:classappend="${pageDto.nowPage == num} ? 'active'"
-		th:href="@{/(nowPage=${num},search_text=${searchDto.search_text})}">
-		번호
-	</a>
-	<a th:if="${pageDto.next}"
-		th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">
-		&raquo;
-	</a>
+		th:href="@{/(nowPage=${num},search_text=${searchDto.search_text})}">번호</a>
+	<a th:if="${pageDto.next}" th:href="@{/(nowPage=${pageDto.pageBarEnd+1})}">&raquo;</a>
 	</div>
 	<h1>할 일 추가</h1>
 	<form name="create_todo_form" action="/todo">
