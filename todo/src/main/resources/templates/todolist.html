@@ -251,7 +251,7 @@ label:hover {
 		form1.addEventListener('submit',(e)=>{
 			e.preventDefault();
 		const payload1 = new FormData(form1);
-			fetch("/attach/create",{
+			fetch("/s3/upload",{
 				method:"post",
 				body:payload1
 			})
