@@ -1,6 +1,7 @@
 package com.yj.todo.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.catalina.startup.ClassLoaderFactory.Repository;
@@ -82,6 +83,15 @@ public class AttachService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<Attach> selectAttachList() {
+		return attachRepository.findAll();
+		
+	}
+
+	public Attach selectAttachOne(Long id) {
+		return attachRepository.findById(id).orElse(null);
 	}
 
 		

@@ -1,6 +1,7 @@
 package com.yj.todo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yj.todo.dto.PageDto;
 import com.yj.todo.dto.SearchDto;
 import com.yj.todo.dto.TodoDto;
+import com.yj.todo.entity.Attach;
 import com.yj.todo.entity.Todo;
+import com.yj.todo.service.AttachService;
 import com.yj.todo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class TodoContorller {
 	
 	private final TodoService service;
-	
+	private final AttachService attachService;
 	
 	@GetMapping({"","/"})
 	public String selectTodoAll(Model model ,SearchDto searchDto ,PageDto pageDto) {
@@ -37,9 +40,9 @@ public class TodoContorller {
 //		if(resultList.isEmpty()) {
 //			resultList = null;
 //		}
-		
+		List<Attach> attachList =attachService.selectAttachList();
+		model.addAttribute("attachList",attachList);
 		pageDto.setTotalPage(resultList.getTotalPages());
-		
 		
 		model.addAttribute("todoList",resultList.getContent());
 		model.addAttribute("searchDto",searchDto);
