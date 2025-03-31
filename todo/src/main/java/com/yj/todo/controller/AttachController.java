@@ -65,7 +65,6 @@ public class AttachController {
 	// 파일 다운로드
 	@GetMapping("/download/{id}")
 	public ResponseEntity<Object> fileDownload(@PathVariable("id") Long id){
-		System.out.println("왜 안됨? : "+id);
 		try {
 			Attach fileData = attachService.selectAttachOne(id);
 			if(fileData == null) {

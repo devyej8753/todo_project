@@ -241,7 +241,7 @@ label:hover {
 					<a th:text="${attach.oriName}" th:onclick="|location.href='@{/download/{id}(id=${attach.attachNo})}'|">
 					파일명</a>
 				</td>
-			</tr> 
+			</tr>  
 		</tbody>
 	</table>
 	</div>
@@ -287,6 +287,7 @@ label:hover {
 	</form>
 	<br>
 	<br>
+	<div class="container-sm">
 	<table border="1">
 		<thead>
 			<tr>
@@ -317,6 +318,7 @@ label:hover {
 			</tr>
 		</tbody>
 	</table>
+	</div>
 	<br>
 	<div th:if="${!#lists.isEmpty(todoList)}">
 	<a th:if="${pageDto.prev}" 
