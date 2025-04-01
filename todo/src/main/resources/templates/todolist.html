@@ -245,7 +245,6 @@ label:hover {
 			</tr>  
 		</tbody>
 	</table>
-	</div>
 	<script>
 		// 파일 업로드
 		const form1 = document.create_file_form
@@ -288,7 +287,6 @@ label:hover {
 	</form>
 	<br>
 	<br>
-	<div class="container-sm">
 	<table border="1">
 		<thead>
 			<tr>
@@ -319,7 +317,6 @@ label:hover {
 			</tr>
 		</tbody>
 	</table>
-	</div>
 	<br>
 	<div th:if="${!#lists.isEmpty(todoList)}">
 	<a th:if="${pageDto.prev}" 
@@ -336,6 +333,7 @@ label:hover {
 		<input type="hidden" name="flag" value="N">
 		<input type="submit" value="추가하기">
 	</form>
+	</div>
 
 	<script>
 		const flagUpdate = function(no){
